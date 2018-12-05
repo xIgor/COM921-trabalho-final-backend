@@ -1,0 +1,48 @@
+version: '3.1'
+services:
+    mysql:
+        image: mysql:5.7.22
+        container_name: unifeisql
+        environment:
+            - MYSQL_DATABASE=unifei
+            - MYSQL_USER=unifei
+            - MYSQL_PASSWORD=unifei
+            - MYSQL_ROOT_PASSWORD=root
+        volumes:
+            - .:/srv/vhosts/phpApp
+            - ./.docker/mysql/mysql-data:/var/lib/mysql
+        working_dir: /srv/vhosts/phpApp
+        ports:
+            - 13306:3306
+
+    beanstalk:
+        image: schickling/beanstalkd
+        container_name: phpstartapi-beanstalkP
+        ports:
+            - 21300:11300
+
+    php-apache:
+        image: marciodojr/phpstart-apache-docker-image:dev
+        container_name: unifeiapi
+        environment:
+            - DOCKER=1
+            - DEV_MODE=1
+            - DB_HOST=mysql
+            - DB_PORT=3306
+            - DB_NAME=unifei
+            - DB_USER=unifei
+            - DB_PASS=unifei
+            - BK_HOST=beanstalk
+            - BK_PORT=11300
+            - APP_SECRET=holly_molly!
+        working_dir: /srv/vhosts/phpApp
+        volumes:
+            - .:/srv/vhosts/phpApp
+            - ./.docker/php/php-ini-overrides.ini:/etc/php/7.2/apache2/conf.d/99-overrides.ini
+            - ./.docker/apache/vhost.conf:/etc/apache2/sites-available/000-default.conf
+            - ./logs/apache:/var/log/apache2
+        ports:
+            - 8888:80
+        depends_on:
+            - beanstalk
+            - mysql
