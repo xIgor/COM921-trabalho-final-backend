@@ -5,7 +5,7 @@ namespace IntecPhp\Action;
 use IntecPhp\Helper\JsonResponse;
 use IntecPhp\Model\Consumer;
 
-class ListComplaintRate
+class ListComplaintRateByState
 {
     use JsonResponse;
 
@@ -18,10 +18,16 @@ class ListComplaintRate
 
     public function __invoke($request, $response)
     {
-        try {
-            $data = $this->consumer->calculateRegionsComplaintRate();
+        $params = $request->getParams();
 
-            return $this->toJson($response, 200, 'Ok', ['regions' => $data]);
+        try {
+            if (empty($params['region'])) {
+                throw new \Exception('Não foi submetida a região');
+            }
+
+            $data = $this->consumer->calculateStateComplaintRate($params['region']);
+
+            return $this->toJson($response, 200, 'Ok', ['states' => $data]);
         } catch (\Exception $e) {
             return $this->toJson($response, 400, $e->getMessage());
         }

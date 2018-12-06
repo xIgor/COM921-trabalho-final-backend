@@ -14,7 +14,9 @@ use IntecPhp\Model\Consumer;
 use IntecPhp\Middleware\Auth;
 
 // Action
-use IntecPhp\Action\ListComplaintRate;
+use IntecPhp\Action\ListComplaintRateByRegion;
+use IntecPhp\Action\ListRegionStates;
+use IntecPhp\Action\ListComplaintRateByState;
 
 // Service
 use IntecPhp\Service\DbHandler;
@@ -93,9 +95,19 @@ $c[AuthService::class] = function ($c) {
 
 // ----------------------------------------- Action
 
-$c[ListComplaintRate::class] = function ($c) {
+$c[ListComplaintRateByRegion::class] = function ($c) {
     $consumer = $c[Consumer::class];
-    return new ListComplaintRate($consumer);
+    return new ListComplaintRateByRegion($consumer);
+};
+
+$c[ListRegionStates::class] = function ($c) {
+    $consumer = $c[Consumer::class];
+    return new ListRegionStates($consumer);
+};
+
+$c[ListComplaintRateByState::class] = function ($c) {
+    $consumer = $c[Consumer::class];
+    return new ListComplaintRateByState($consumer);
 };
 
 // ----------------------------------------- Middleware

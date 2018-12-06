@@ -30,4 +30,28 @@ class ConsumerEntity extends Entity
         }
         throw new \Exception("Não foi possível consultar a tabela consumidor");
     }
+
+    public function countStateRecords(string $state)
+    {
+        $sql = "select count(*) as total from $this->name where uf = ?";
+
+        $stmt = $this->db->query($sql, [$state]);
+
+        if ($stmt) {
+            return $stmt->fetch();
+        }
+        throw new \Exception("Não foi possível consultar a tabela consumidor");
+    }
+
+    // public function companyMoreComplaintsByState(array $companies)
+    // {
+    //     $sql = "select count(*) as total from $this->name where uf = ?";
+
+    //     $stmt = $this->db->query($sql, [$state]);
+
+    //     if ($stmt) {
+    //         return $stmt->fetch();
+    //     }
+    //     throw new \Exception("Não foi possível consultar a tabela consumidor");
+    // }
 }

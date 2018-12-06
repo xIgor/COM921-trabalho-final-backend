@@ -4,7 +4,7 @@ namespace IntecPhp\Test\Functional\Consumer;
 
 use IntecPhp\Test\Functional\TestCase;
 
-class ListComplaintRateTest extends TestCase
+class ListComplaintRateByRegionTest extends TestCase
 {
 
     public function setUp()

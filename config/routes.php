@@ -4,10 +4,17 @@ use IntecPhp\Middleware\Auth;
 use IntecPhp\Middleware\AllowOrigin;
 
 // ACTION
-use IntecPhp\Action\ListComplaintRate;
+use IntecPhp\Action\ListComplaintRateByRegion;
+use IntecPhp\Action\ListRegionStates;
+use IntecPhp\Action\ListComplaintRateByState;
 
 $app->group('/region', function () {
-    $this->get('/complaint-rate', ListComplaintRate::class);
+    $this->get('/complaint-rate', ListComplaintRateByRegion::class);
+    $this->post('/list-states', ListRegionStates::class);
+});
+
+$app->group('/state', function () {
+    $this->post('/complaint-rate', ListComplaintRateByState::class);
 });
 
 // enable CORS

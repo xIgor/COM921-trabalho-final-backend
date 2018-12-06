@@ -47,4 +47,72 @@ class Consumer
 
         return $regions;
     }
+
+    public function getStates(string $region)
+    {
+        if ($region == self::NORDESTE) {
+            return [
+                'MA',
+                'PI',
+                'CE',
+                'RN',
+                'PE',
+                'PB',
+                'SE',
+                'AL',
+                'BA'
+            ];
+        } elseif ($region == self::SUDESTE) {
+            return [
+                'SP',
+                'RJ',
+                'ES',
+                'MG'
+            ];
+        } elseif ($region == self::SUL) {
+            return [
+                'PR',
+                'RS',
+                'SC'
+            ];
+        } elseif ($region == self::CENTRO_OESTE) {
+            return [
+                'MT',
+                'MS',
+                'GO',
+                'DF'
+            ];
+        } elseif ($region == self::NORTE) {
+            return [
+                 'AM',
+                 'RR',
+                 'AP',
+                 'PA',
+                 'TO',
+                 'RO',
+                 'AC'
+            ];
+        } else {
+            throw new \Exception('A região informada é inválida');
+        }
+    }
+
+    public function calculateStateComplaintRate(string $region)
+    {
+        $states_rate = [];
+        $states      = $this->getStates($region);
+        $total_r     = $this->consumerEntity->countRegionRecords($region);
+        $total       = $total_r ? (int)$total_r['total'] : 0;
+
+        foreach ($states as $state) {
+            $r = $this->consumerEntity->countStateRecords($state);
+            $state_t = $r ? (int)$r['total'] : 0;
+            $rate = round(($state_t/ $total) * 100, 2);
+            $states_rate[$state] = $rate;
+        }
+
+        asort($states_rate);
+
+        return $states_rate;
+    }
 }
