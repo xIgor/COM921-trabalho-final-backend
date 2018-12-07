@@ -18,6 +18,7 @@ use IntecPhp\Action\ListComplaintRateByRegion;
 use IntecPhp\Action\ListRegionStates;
 use IntecPhp\Action\ListComplaintRateByState;
 use IntecPhp\Action\ListCompaniesWithMoreComplaints;
+use IntecPhp\Action\ListCompanySemesterEvaluation;
 
 // Service
 use IntecPhp\Service\DbHandler;
@@ -114,6 +115,11 @@ $c[ListComplaintRateByState::class] = function ($c) {
 $c[ListCompaniesWithMoreComplaints::class] = function ($c) {
     $consumer = $c[Consumer::class];
     return new ListCompaniesWithMoreComplaints($consumer);
+};
+
+$c[ListCompanySemesterEvaluation::class] = function ($c) {
+    $consumer = $c[Consumer::class];
+    return new ListCompanySemesterEvaluation($consumer);
 };
 
 // ----------------------------------------- Middleware

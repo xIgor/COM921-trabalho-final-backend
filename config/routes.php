@@ -8,6 +8,7 @@ use IntecPhp\Action\ListComplaintRateByRegion;
 use IntecPhp\Action\ListRegionStates;
 use IntecPhp\Action\ListComplaintRateByState;
 use IntecPhp\Action\ListCompaniesWithMoreComplaints;
+use IntecPhp\Action\ListCompanySemesterEvaluation;
 
 $app->group('/region', function () {
     $this->get('/complaint-rate', ListComplaintRateByRegion::class);
@@ -17,6 +18,10 @@ $app->group('/region', function () {
 $app->group('/state', function () {
     $this->post('/complaint-rate', ListComplaintRateByState::class);
     $this->post('/complaint-company', ListCompaniesWithMoreComplaints::class);
+});
+
+$app->group('/company', function () {
+    $this->post('/semester-evaluation', ListCompanySemesterEvaluation::class);
 });
 
 // enable CORS

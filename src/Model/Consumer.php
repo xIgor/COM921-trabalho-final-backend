@@ -129,4 +129,23 @@ class Consumer
 
         return $companies;
     }
+
+    public function getCompanySemesterEvaluation(string $company)
+    {
+        $jan = $this->consumerEntity->getCompanyAverageGrade($company, 1);
+        $feb = $this->consumerEntity->getCompanyAverageGrade($company, 2);
+        $mar = $this->consumerEntity->getCompanyAverageGrade($company, 3);
+        $apr = $this->consumerEntity->getCompanyAverageGrade($company, 4);
+        $may = $this->consumerEntity->getCompanyAverageGrade($company, 5);
+        $jun = $this->consumerEntity->getCompanyAverageGrade($company, 6);
+
+        return [
+            'Janeiro'   => round((float)$jan['avg_grade'], 2),
+            'Fevereiro' => round((float)$feb['avg_grade'], 2),
+            'Março'     => round((float)$mar['avg_grade'], 2),
+            'Abril'     => round((float)$apr['avg_grade'], 2),
+            'Maio'      => round((float)$may['avg_grade'], 2),
+            'Junho'     => round((float)$jun['avg_grade'], 2)
+        ];
+    }
 }

@@ -55,4 +55,17 @@ class ConsumerEntity extends Entity
         }
         throw new \Exception("Não foi possível consultar a tabela consumidor");
     }
+
+    public function getCompanyAverageGrade(string $company, int $month)
+    {
+        $sql = "select avg(nota_consumidor) as avg_grade from $this->name where nome_fantasia = ? and month(data_finalizacao) = ?";
+        $params = [$company, $month];
+
+        $stmt = $this->db->query($sql, $params);
+
+        if ($stmt) {
+            return $stmt->fetch();
+        }
+        throw new \Exception("Não foi possível consultar a tabela consumidor");
+    }
 }
