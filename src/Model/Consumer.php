@@ -115,4 +115,18 @@ class Consumer
 
         return $states_rate;
     }
+
+    public function getCompaniesWithMoreComplaints(string $state)
+    {
+        $companies = [];
+
+        $r = $this->consumerEntity->countCompanyComplaintByState($state);
+        foreach ($r as $company) {
+            $companies[$company['nome_fantasia']] = (int)$company['total'];
+        }
+
+        asort($companies);
+
+        return $companies;
+    }
 }

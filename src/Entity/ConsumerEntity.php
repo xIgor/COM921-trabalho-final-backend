@@ -43,15 +43,16 @@ class ConsumerEntity extends Entity
         throw new \Exception("Não foi possível consultar a tabela consumidor");
     }
 
-    // public function companyMoreComplaintsByState(array $companies)
-    // {
-    //     $sql = "select count(*) as total from $this->name where uf = ?";
+    public function countCompanyComplaintByState(string $state)
+    {
+        $sql = "select count(*) as total, nome_fantasia from $this->name where uf = ? group by nome_fantasia order by total desc limit 5";
+        $params = [$state];
 
-    //     $stmt = $this->db->query($sql, [$state]);
+        $stmt = $this->db->query($sql, $params);
 
-    //     if ($stmt) {
-    //         return $stmt->fetch();
-    //     }
-    //     throw new \Exception("Não foi possível consultar a tabela consumidor");
-    // }
+        if ($stmt) {
+            return $stmt->fetchAll();
+        }
+        throw new \Exception("Não foi possível consultar a tabela consumidor");
+    }
 }
